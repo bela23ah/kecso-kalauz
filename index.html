@@ -193,7 +193,7 @@
   <div class="section" style="text-align: center; max-width: 600px;">
     <h2 class="section-title" style="margin-bottom: 1rem;">Kihagytunk valamit?</h2>
     <p class="section-desc" style="margin-bottom: 2rem;">Tudsz egy hírhedt kocsmát vagy szlenget? Küldd be!</p>
-    <form id="submitForm" onsubmit="submitForm(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+    <form id="submitForm" onsubmit="submitFormToFirebase(event)" style="display: flex; flex-direction: column; gap: 1rem;">
       <input type="text" placeholder="Szócikk neve..." required style="padding: 1rem; border: 2px solid var(--ink); font-family: 'Libre Baskerville';">
       <textarea placeholder="Magyarázat (sztori, legenda)..." required rows="4" style="padding: 1rem; border: 2px solid var(--ink); font-family: 'Libre Baskerville';"></textarea>
       <button type="submit" class="hero-btn primary" style="align-self: center;">Beküldés a szerkesztőknek</button>
@@ -205,6 +205,63 @@
   <p>Kecsó Kalauz – Kecskemét (k)ától zéig</p>
 </footer>
 
+
+<!-- Firebase SDK beállítása -->
+<script type="module">
+  // 1. Firebase modulok importálása a Google CDN-jéről
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // 2. A Te saját Firebase konfigurációd
+  const firebaseConfig = {
+    apiKey: "AIzaSyAV3FrZWha-mgXswt2cWKnM5ZEBRnnvHtI",
+    authDomain: "kecsokalauz-dc2bd.firebaseapp.com",
+    projectId: "kecsokalauz-dc2bd",
+    storageBucket: "kecsokalauz-dc2bd.firebasestorage.app",
+    messagingSenderId: "439815155879",
+    appId: "1:439815155879:web:bd4b3da3cd1faa4098eb82",
+    measurementId: "G-S31E6M6RP5"
+  };
+
+  // 3. Inicializáljuk a Firebase-t, az Analitikát és az Adatbázist (Firestore)
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+
+  // 4. Az űrlap beküldő függvénye (A window-hoz adjuk, hogy a HTML-ből hívható legyen)
+  window.submitFormToFirebase = async function(event) {
+    event.preventDefault(); // Ne töltődjön újra az oldal
+    
+    const form = event.target;
+    const titleInput = form.querySelector('input').value;
+    const descInput = form.querySelector('textarea').value;
+    const submitBtn = form.querySelector('button');
+
+    // Gomb letiltása küldés közben, hogy ne nyomják meg kétszer
+    submitBtn.textContent = "Küldés folyamatban...";
+    submitBtn.disabled = true;
+
+    try {
+      // Adat mentése a Firestore 'submissions' (beküldések) gyűjteményébe
+      await addDoc(collection(db, "submissions"), {
+        title: titleInput,
+        description: descInput,
+        timestamp: new Date().toISOString()
+      });
+      
+      alert("Köszi! Az urban dictionary szerkesztői megkapták az infót! 🐐");
+      form.reset(); // Űrlap kiürítése
+    } catch (e) {
+      console.error("Hiba történt a mentéskor: ", e);
+      alert("Hiba történt a küldés során. Próbáld újra!");
+    } finally {
+      // Gomb visszaállítása
+      submitBtn.textContent = "Beküldés a szerkesztőknek";
+      submitBtn.disabled = false;
+    }
+  };
+</script>
 <script src="script.js"></script>
 </body>
 </html>
