@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1208">
+  <title>Kecsó Kalauz – Kecskemét (k)ától zéig</title>
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- Betűtípusok -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Olvasási Progress Sáv -->
+<div id="scrollProgress"></div>
+
+<button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Vissza a tetejére">↑</button>
+
+<nav id="navbar">
+  <div class="nav-logo">🐐 Kecsó</div>
+  <div class="nav-links">
+    <button class="nav-link" onclick="scrollToId('enc')">Szótár</button>
+    <button class="nav-link" onclick="scrollToId('backpack')">Hátizsák</button>
+    <button class="nav-link" onclick="scrollToId('quiz')">Játékok</button>
+    <button class="nav-link" onclick="scrollToId('map')">Térkép</button>
+  </div>
+  <button id="darkModeToggle" title="Kecsó by Night">🌙</button>
+</nav>
+
+<section id="hero">
+  <div class="hero-kecske">🐐</div>
+  <div class="hero-content">
+    <div class="hero-sub">Kecskemét (k)ától zéig · Urban Dictionary</div>
+    <h1 class="hero-title">Kecsó<br><span>Kalauz</span></h1>
+    <p class="hero-desc">„A leghasznosabb app Kecskeméten."</p>
+    <div class="hero-nav">
+      <button class="hero-btn primary" onclick="scrollToId('enc')">📖 Enciklopédia</button>
+      <button class="hero-btn" onclick="scrollToId('quiz')">🎮 Játékok</button>
+      <button class="hero-btn" onclick="scrollToId('reader')">📜 Olvasó</button>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ Görgess</div>
+</section>
+
+<!-- ENCIKLOPÉDIA -->
+<div class="section-wrap alt" id="enc">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div>
+        <h2 class="section-title">Kecskeméti Enciklopédia</h2>
+        <div class="section-desc">Keress, mentsd el a kedvenceid (🔖) és oszd meg!</div>
+      </div>
+    </div>
+    <div class="enc-search-wrap">
+      <input class="enc-search" type="text" id="encSearch" placeholder="Keress szócikket…">
+      <button class="filter-btn" style="border-color: var(--rust); color: var(--rust);" onclick="randomEntry()">🎲 Véletlen</button>
+    </div>
+    <div class="enc-layout">
+      <div class="enc-sidebar"><div class="abc-nav" id="abcNav"></div></div>
+      <div>
+        <div class="enc-count" id="encCount"></div>
+        <div class="enc-entries" id="encEntries"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HÁTIZSÁK (KEDVENCEK) -->
+<div class="section-wrap sand" id="backpack">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="font-size: 3rem;">🎒</div>
+      <div>
+        <h2 class="section-title">Hátizsákom</h2>
+        <div class="section-desc">A megmentett szócikkeid és túlélőkészleted.</div>
+      </div>
+    </div>
+    <div class="enc-entries" id="backpackEntries">
+      <p style="font-style:italic; color: var(--sand-dark);">Még üres a hátizsákod. Kattints a 🔖 ikonra egy szócikknél!</p>
+    </div>
+  </div>
+</div>
+
+<!-- GAMIFIKÁCIÓ (Kvíz, Túlélő, Szleng) -->
+<div class="section-wrap" id="quiz">
+  <div class="section">
+    <div class="section-header" style="border-color: rgba(255,255,255,0.2);">
+      <div class="section-num" style="color: var(--gold-light);">02</div>
+      <div>
+        <h2 class="section-title" style="color: var(--cream);">Kecskeméti Kiképzőtábor</h2>
+      </div>
+    </div>
+
+    <!-- SZLENG GENERÁTOR -->
+    <div class="slang-box">
+      <h3 style="color: var(--gold-light); font-family: 'Fraunces'; margin-bottom: 1rem;">🗣️ Szleng Generátor</h3>
+      <div id="slangOutput" class="slang-output">Nyomd meg a gombot egy tuti hírös mondatért!</div>
+      <button class="hero-btn primary" onclick="generateSlang()">Generálj!</button>
+    </div>
+
+    <!-- TÚLÉLŐ SZIMULÁTOR -->
+    <div class="survival-box">
+      <h3 style="color: var(--gold-light); font-family: 'Fraunces'; margin-bottom: 1rem;">💀 Túlélő Szimulátor</h3>
+      <p id="survivalText" class="survival-text">Éjjel 2 van. Leszállsz a vonatról a Nagyállomáson. A célod eljutni a Széchenyivárosba.</p>
+      <div id="survivalChoices" class="survival-choices"></div>
+    </div>
+
+    <!-- KVÍZ (Eredeti) -->
+    <div class="quiz-wrap" style="margin-top: 4rem;">
+      <h3 style="color: var(--gold-light); font-family: 'Fraunces'; margin-bottom: 1rem; text-align:center;">🎯 Hírös Kvíz</h3>
+      <div id="quizGame">
+        <div class="quiz-score-bar"><div class="quiz-score-fill" id="quizFill" style="width:0%"></div></div>
+        <div class="quiz-progress" id="quizProgress"></div>
+        <div class="quiz-question" id="quizQ"></div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="quiz-feedback" id="quizFeedback"></div>
+        <button class="quiz-next" id="quizNext" onclick="nextQuestion()">Következő →</button>
+      </div>
+      <div class="quiz-result" id="quizResult">
+        <div class="result-emoji" id="resultEmoji"></div>
+        <div class="result-title" id="resultTitle"></div>
+        <div class="result-sub" id="resultSub"></div>
+        <button class="result-restart" onclick="startQuiz()">Újra</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OLVASÓ -->
+<div class="section-wrap sand" id="reader">
+  <div class="section">
+    <div class="section-header" style="border-color: var(--ink);">
+      <div class="section-num">03</div>
+      <div>
+        <h2 class="section-title">Digitális olvasó</h2>
+      </div>
+    </div>
+    <div class="reader-layout">
+      <div class="reader-toc"><div id="tocList"></div></div>
+      <div class="reader-content">
+        <div id="readerChapters"></div>
+        <div class="reader-nav">
+          <button class="reader-btn" id="readerPrev" onclick="changeChapter(-1)">← Előző</button>
+          <button class="reader-btn" id="readerNext" onclick="changeChapter(1)">Következő →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TÉRKÉP (Zoomolható) -->
+<div class="section-wrap alt" id="map">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div>
+        <h2 class="section-title">Kecsó térképe</h2>
+        <div class="section-desc">Húzd (Pan) és görgess (Zoom) a felfedezéshez!</div>
+      </div>
+    </div>
+    <div class="map-container">
+      <div class="map-viewport" id="mapViewport">
+        <div class="map-svg-wrap" id="mapContent">
+          <svg class="map-svg" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg">
+            <rect width="800" height="520" fill="#f0e8d0"/>
+            <path d="M 120 60 L 680 60 L 740 130 L 750 400 L 680 460 L 120 460 L 70 390 L 60 130 Z" fill="#ede0c0" stroke="#c9b99a" stroke-width="2"/>
+            <ellipse cx="400" cy="260" rx="210" ry="170" fill="none" stroke="#c9b080" stroke-width="3" stroke-dasharray="6,3"/>
+            <rect x="340" y="210" width="120" height="100" rx="4" fill="#e8d8b0" stroke="#a09070"/>
+            <text x="400" y="258" text-anchor="middle" font-family="serif" font-size="10" fill="#6a5030">Belváros</text>
+          </svg>
+          <div class="map-pins" id="mapPins"></div>
+        </div>
+      </div>
+      <div class="map-popup" id="mapPopup">
+        <button class="popup-close" onclick="closePopup()">✕</button>
+        <div class="popup-title" id="popupTitle"></div>
+        <div class="popup-text" id="popupText"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BEKÜLDŐ ŰRLAP -->
+<div class="section-wrap sand" id="submit">
+  <div class="section" style="text-align: center; max-width: 600px;">
+    <h2 class="section-title" style="margin-bottom: 1rem;">Kihagytunk valamit?</h2>
+    <p class="section-desc" style="margin-bottom: 2rem;">Tudsz egy hírhedt kocsmát vagy szlenget? Küldd be!</p>
+    <form id="submitForm" onsubmit="submitForm(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+      <input type="text" placeholder="Szócikk neve..." required style="padding: 1rem; border: 2px solid var(--ink); font-family: 'Libre Baskerville';">
+      <textarea placeholder="Magyarázat (sztori, legenda)..." required rows="4" style="padding: 1rem; border: 2px solid var(--ink); font-family: 'Libre Baskerville';"></textarea>
+      <button type="submit" class="hero-btn primary" style="align-self: center;">Beküldés a szerkesztőknek</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <p>Kecsó Kalauz – Kecskemét (k)ától zéig</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

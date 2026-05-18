@@ -1,0 +1,22 @@
+{
+  "entries": [
+    { "id": "0km", "title": "0 km kő (Nullkő)", "tag": "helynev", "body": "Az univerzumban mindennek van közepe – így Kecskemétnek is megvan a maga zérus pontja..." },
+    { "id": "hiros", "title": "Hírös", "tag": "szleng", "body": "A kecskeméti köszöntő, minőségjelző és büszkeségjel egyszerre..." },
+    { "id": "varoshaza", "title": "Városháza", "tag": "helynev", "body": "Szecessziós, 1893–97-ig épült. A tetőn Árpádka áll.", "audio": "https://www.soundjay.com/bells/sounds/church-bell-1.mp3" },
+    { "id": "cifrapalota", "title": "Cifrapalota", "tag": "helynev", "body": "Kecskemét első bérházaként épült. A sokszínű majolikamezők miatt a nép nevezte el Cifrapalotának." },
+    { "id": "donkanyar", "title": "Don-kanyar", "tag": "helynev", "body": "A Nagytemplom mögötti, furcsán kanyarodó részt emlegették így egykor." },
+    { "id": "macskako", "title": "Sárga macskakő", "tag": "szleng", "body": "A sárgaszínű keramit. A tartóssága híres, a csúszóssága hírhedt. Nedves időben azonnal jégpálya." }
+  ],
+  "quiz": [
+    { "q": "Milyen burkolatot takar a 'sárga macskakő'?", "opts": ["Homokot", "Keramitot, ami csúszik", "Aszfaltot", "Zsolnay kerámiát"], "correct": 1, "feedback": "Így van! Nedvesen azonnal jégpályává változik." },
+    { "q": "Miről híres a kecskeméti 'Fűrészfogas'?", "opts": ["Asztalosüzem", "Egy lakóház lépcsőházai", "Egy szobor", "Kocsma"], "correct": 1, "feedback": "Pontosan! A Petőfi Sándor utcai épület lépcsőházai formáznak fűrészfogakat." }
+  ],
+  "chapters": [
+    { "title": "Előszószerű izé", "body": "<p>Kiknek és miért lesz hasznos a kötet? Régóta itt élő feledékenyeknek...</p>" },
+    { "title": "Kecskemét neve", "body": "<p>Eredetéről még ma is történész csaták zajlanak...</p>" }
+  ],
+  "pins": [
+    { "id": "pin1", "x": "49%", "y": "47%", "label": "Városháza", "color": "", "title": "Városháza", "text": "Lechner Ödön szecessziós remekműve." },
+    { "id": "pin2", "x": "50%", "y": "52%", "label": "Nullkő", "color": "", "title": "0 km kő", "text": "176 város irányát és távolságát mutatja." }
+  ]
+}

@@ -1,0 +1,120 @@
+:root {
+  --sand: #e8dcc8;
+  --sand-dark: #c9b99a;
+  --rust: #b5451b;
+  --rust-light: #d4622e;
+  --ink: #1a1208;
+  --cream: #f5efe0;
+  --cream-dark: #ede3cc;
+  --green: #3a5c3a;
+  --gold: #c9960a;
+  --gold-light: #e8b830;
+  --white: #fdfaf3;
+  --transition: all 0.3s ease;
+}
+
+/* SÖTÉT MÓD (Kecsó by Night) */
+body.dark-mode {
+  --cream: #1a1208;
+  --cream-dark: #2a1f12;
+  --ink: #f5efe0;
+  --sand: #2d2416;
+  --sand-dark: #5a4a30;
+  --white: #110c05;
+  --gold-light: #e8b830;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Libre Baskerville', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+/* PROGRESS BAR */
+#scrollProgress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 4px;
+  background: var(--rust);
+  width: 0%;
+  z-index: 10000;
+  transition: width 0.1s;
+}
+
+/* NAVBAR */
+#navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(26,18,8,0.95);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 52px;
+  transform: translateY(-100%);
+  transition: transform 0.3s;
+}
+#navbar.visible { transform: translateY(0); }
+.nav-logo { font-family: 'Fraunces', serif; font-weight: 900; font-size: 1.1rem; color: var(--gold-light); }
+.nav-links { display: flex; overflow-x: auto; flex: 1; margin-left: 2rem; }
+.nav-link { background: transparent; border: none; color: var(--sand); font-family: 'DM Mono', monospace; font-size: 0.72rem; text-transform: uppercase; padding: 0 1rem; cursor: pointer; transition: var(--transition); }
+.nav-link:hover { color: var(--gold-light); }
+#darkModeToggle { background: transparent; border: none; font-size: 1.2rem; cursor: pointer; color: white; }
+
+/* HERO */
+#hero { background: var(--ink); color: var(--cream); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden; padding: 2rem; }
+.hero-title { font-family: 'Fraunces', serif; font-size: clamp(3.5rem, 10vw, 9rem); font-weight: 900; color: var(--cream); line-height: 0.9; margin-bottom: 0.3em;}
+.hero-title span { color: var(--gold-light); font-style: italic; }
+.hero-btn { background: transparent; border: 2px solid var(--gold-light); color: var(--gold-light); font-family: 'DM Mono', monospace; padding: 0.75rem 1.5rem; cursor: pointer; transition: var(--transition); text-transform: uppercase; }
+.hero-btn:hover { background: var(--gold-light); color: var(--ink); }
+.hero-btn.primary { background: var(--rust); border-color: var(--rust); color: var(--cream); }
+.hero-btn.primary:hover { background: var(--rust-light); border-color: var(--rust-light); }
+
+/* SECTIONS */
+.section-wrap { background: var(--ink); padding: 5rem 2rem; transition: background-color var(--transition); }
+.section-wrap.alt { background: var(--white); }
+.section-wrap.sand { background: var(--sand); }
+.section { max-width: 1100px; margin: 0 auto; }
+.section-header { display: flex; gap: 1.5rem; border-bottom: 3px solid var(--ink); margin-bottom: 2rem; padding-bottom: 1rem;}
+.section-num { font-family: 'Fraunces', serif; font-size: 4rem; color: var(--rust); font-weight: 900;}
+.section-title { font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 700; color: var(--ink);}
+
+/* ENCIKLOPÉDIA */
+.enc-layout { display: grid; grid-template-columns: 200px 1fr; gap: 2rem; }
+@media(max-width: 700px){ .enc-layout { grid-template-columns: 1fr; } .enc-sidebar{display:none;} }
+.enc-search { flex: 1; padding: 0.7rem; border: 2px solid var(--ink); font-family: inherit; background: var(--white); color: var(--ink); }
+.search-highlight { background: var(--gold-light); color: #000; padding: 0 2px; border-radius: 2px; }
+.enc-entry { border-bottom: 1px solid var(--sand-dark); padding: 1rem 0; cursor: pointer; }
+.entry-head { display: flex; justify-content: space-between; font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: bold; }
+.entry-actions { display: flex; gap: 0.5rem; }
+.action-btn { background: none; border: none; cursor: pointer; font-size: 1.2rem; transition: transform 0.2s;}
+.action-btn:hover { transform: scale(1.2); }
+.entry-body { display: none; padding-left: 1rem; border-left: 3px solid var(--rust); margin-top: 1rem; line-height: 1.6; }
+.entry-body.open { display: block; }
+
+/* GAMIFIKÁCIÓ (Szleng & Túlélő) */
+.slang-box, .survival-box { background: rgba(255,255,255,0.05); border: 2px solid var(--gold-light); padding: 2rem; border-radius: 8px; text-align: center; margin-bottom: 2rem; }
+.slang-output { font-size: 1.5rem; font-style: italic; color: var(--cream); margin-bottom: 1.5rem; min-height: 3rem; }
+.survival-text { color: var(--cream); font-size: 1.2rem; margin-bottom: 2rem; }
+.survival-choices { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+/* MAP PAN & ZOOM */
+.map-container { position: relative; }
+.map-viewport { width: 100%; height: 520px; overflow: hidden; background: #f0e8d0; border: 3px solid var(--ink); cursor: grab; }
+.map-viewport:active { cursor: grabbing; }
+.map-svg-wrap { width: 100%; height: 100%; transform-origin: 0 0; position: relative; }
+.map-svg { width: 100%; height: 100%; position: absolute; }
+.map-pins { position: absolute; inset: 0; }
+.map-pin { position: absolute; transform: translate(-50%, -100%); cursor: pointer; }
+.pin-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--rust); border: 2px solid var(--ink); }
+
+/* Vissza a tetejére */
+#backToTop { position: fixed; bottom: 2rem; right: 2rem; background: var(--rust); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; opacity: 0; transform: translateY(20px); transition: var(--transition); z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+#backToTop.visible { opacity: 1; transform: translateY(0); }
